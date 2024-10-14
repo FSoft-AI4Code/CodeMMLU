@@ -10,7 +10,7 @@ class Backend(ABC):
         peft_model: str = None,
         trust_remote_code: bool = False,
         instruction_prefix: str = None,
-        response_prefix: str = None,
+        assistant_prefix: str = None,
         cache_dir: str = None,
         output_dir: str=None):
         print(f"Initializing {self.__class__.__name__} backend")
@@ -26,7 +26,7 @@ class Backend(ABC):
         self.max_new_tokens = max_new_tokens
         self.trust_remote_code = trust_remote_code
         self.instruction_prefix = instruction_prefix
-        self.response_prefix = response_prefix
+        self.assistant_prefix = assistant_prefix
 
     
     @abstractmethod

@@ -47,9 +47,9 @@ pip install codemmlu
 Generate response for CodeMMLU MCQs benchmark:
 ```bash
 code_mmlu.generate --model_name_or_path <your_model_name_or_path> \
---subset [semantic|syntactic|realtask] \
---output_dir <your_output_dir> \
---backend [vllm|hf|anthropic|openai]
+  --subset [semantic|syntactic|realtask] \
+  --output_dir <your_output_dir> \
+  --backend [vllm|hf|anthropic|openai]
 ```
 
 
