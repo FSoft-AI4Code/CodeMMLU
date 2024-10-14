@@ -17,12 +17,10 @@
 </p>
 
 <p align="center">
-    <!-- <a href="#-impact">💥 Impact</a> • -->
-    <a href="#📰-news">📰 News</a> •
-    <a href="#🚀-quick-start">🚀 Quick Start</a> •
-    <a href="#📋-evaluation">📋 Evaluation</a> •
-    <!-- <a href="#-llm-generated-code">💻 LLM-generated Code</a> • -->
-    <a href="#📌-citation">📌 Citation</a>
+    <a href="#-news">📰 News</a> •
+    <a href="#-quick-start">🚀 Quick Start</a> •
+    <a href="#-evaluation">📋 Evaluation</a> •
+    <a href="#-citation">📌 Citation</a>
 </p>
 
 ## 📌 About
@@ -70,7 +68,7 @@ pip install -e .
 >
 > If you prefer `vllm` backend, we highly recommend you install [vllm from official project](https://github.com/vllm-project/vllm/) before install `codemmlu`.
 
-Start evaluating your model via `codemmlu`:
+Generating with CodeMMLU questions:
 ```bash
 code_mmlu.generate \
   --model_name <your_model_name_or_path> \
@@ -85,28 +83,15 @@ code_mmlu.generate \
   --assistant_prefix <special_prefix> \
   --cache_dir <your_cache_dir>
 ```
-
-List of CodeMMLU subset:
-
-| Subject           	| Subset              	|
-|-------------------	|---------------------	|
-| Syntactic test    	| programming_syntax  	|
-|                   	| api_frameworks      	|
-| Semantic test     	| software_principles 	|
-|                   	| dbms_sql            	|
-|                   	| others              	|
-| Realworld problem 	| code_completion     	|
-|                   	| fill_in_the_middle  	|
-|                   	| code_repair         	|
-|                   	| defect_detection    	|
-
 List of supported backends:
 
 | Backend          	| DecoderModel 	| LoRA 	|
 |------------------	|--------------	|------	|
-| [Transformers](https://github.com/huggingface/transformers)
- (hf) 	| ✅            | ✅    |
+| [Transformers](https://github.com/huggingface/transformers) (hf) 	| ✅            | ✅    |
 | [Vllm](https://github.com/vllm-project/vllm) (vllm)      	| ✅            | ✅    |
+
+### Leaderboard
+To evaluate your model and submit your results to the [leaderboard](https://fsoft-ai4code.github.io/leaderboards/codemmlu/), please follow the instruction in [data/README.md](data/README.md).
 
 ## 📌 Citation
 If you find this repository useful, please consider citing our paper:
