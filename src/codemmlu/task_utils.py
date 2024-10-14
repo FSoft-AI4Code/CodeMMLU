@@ -2,7 +2,34 @@ import re
 from typing import Optional
 from datasets import Dataset, load_dataset
 
-from codemmlu.prompts import get_prompt
+from codemmlu.prompts import GENERAL_PROMPT, CODECOMP_PROMPT, FIM_PROMPT, CODEREPAIR_PROMPT, DEFECT_PROMPT
+
+
+SEMANTIC_TASK = ["software_principles", "dbms_sql", "others"]
+
+SYNTACTIC_TASK = ["programming_syntax", "api_frameworks"]
+
+REALWORLD_TASK = ["code_completion", "fill_in_the_middle", "code_repair", "defect_detection"]
+
+
+def get_prompt(subset: str, prompt_mode: str) -> str:
+    """Get prompt for a given task."""
+    assert prompt_mode in ["zeroshot", "fewshot"]
+
+    if subset in SEMANTIC_TASK + SYNTACTIC_TASK:
+        return GENERAL_PROMPT[prompt_mode]
+    else:
+        if subset == "code_completion":
+            return CODECOMP_PROMPT[prompt_mode]
+        elif subset == "fill_in_the_middle":
+            return FIM_PROMPT[prompt_mode]
+        elif subset == "code_repair":
+            return CODEREPAIR_PROMPT[prompt_mode]
+        elif subset == "defect_detection":
+            return DEFECT_PROMPT[prompt_mode]
+        else:
+            raise ValueError(f"Invalid subset: {subset}")
+
 
 class CodeMMLU:
     """CodeMMLU benchmark loader."""
