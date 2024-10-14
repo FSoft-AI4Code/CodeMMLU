@@ -55,9 +55,6 @@ class HuggingfaceEngine(Backend):
             print("Set EOS_TOKEN to PAD_TOKEN")
             self.tokenizer.pad_token = self.tokenizer.eos_token
 
-        # Load dataset
-        self.dataset = self.load_dataset(self.dataset, self.subset, split=self.split)
-
     def generate(self) -> str:
         # ``Accelerate`` distribute data and model
         assert self.accelerator
@@ -84,14 +81,15 @@ class HuggingfaceEngine(Backend):
                 
                 batch['generation'] = batch_results
                 result.extend(batch['generation'])
-                self.save_result(batch)
+                self._save_result(batch)
                 
         
         result_gather = gather_object(result)[: len(self.dataset)]
         self.dataset = self.dataset.add_column('generation', result_gather)
+        # TODO: process response and extract answer
         return self.dataset
 
-    def save_result(self, batched_outputs: Dict):
+    def _save_result(self, batched_outputs: Dict):
         assert 'question' in batched_outputs.keys()
         assert 'generation' in batched_outputs.keys()
         

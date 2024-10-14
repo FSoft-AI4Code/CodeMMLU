@@ -32,9 +32,6 @@ class VllmEngine(Backend):
             max_tokens=self.max_tokens,
             temperature=self.temperature,
         )
-        
-        # Load dataset
-        self.dataset = self.load_dataset(self.dataset, self.subset, split=self.split)
 
     def generate(self):
         result = []
@@ -45,12 +42,13 @@ class VllmEngine(Backend):
 
             batch['generation'] = [output.outputs[0].text for output in outputs]
             result.extend(batch['generation'])
-            self.save_result(batch)
+            self._save_result(batch)
             
         self.dataset = self.dataset.add_column('generation', result)
+        # TODO: process response and extract answer
         return self.dataset
 
-    def save_result(self, batched_outputs: Dict):
+    def _save_result(self, batched_outputs: Dict):
         assert 'question' in batched_outputs.keys()
         assert 'generation' in batched_outputs.keys()
         
