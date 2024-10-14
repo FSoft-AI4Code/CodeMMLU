@@ -2,6 +2,8 @@ import os
 import argparse
 import pkg_resources
 
+from codemmlu.task_utils import ALL_TASK
+
 def get_args():
     parser = argparse.ArgumentParser(description=f"{20*'='} CodeMMLU {20*'='}")
     
@@ -39,7 +41,9 @@ def get_args():
             args.cache_dir = TRANSFORMER_CACHE
         else:
             args.cache_dir = HF_HOME
-        
+    
+    assert args.subset in ALL_TASK, f"Invalid subset name, expect {ALL_TASK}, but got {args.subset}"
+
     return args, parser
 
 
@@ -52,7 +56,6 @@ def main():
     
 
 def generate(args):
-    print(args)
     from codemmlu import Evaluator
 
     evaluator = Evaluator(

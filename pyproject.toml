@@ -8,7 +8,7 @@ version = "0.0.1"
 authors = [
   { name="Dung Manh Nguyen", email="dungnm31@fpt.com" },
 ]
-description = "CodeMMLU Evaluator: A framework for evaluating LM models on CodeMMLU MCQs benchmark."
+description = "CodeMMLU Evaluator: A framework for evaluating language models on CodeMMLU benchmark."
 readme = "README.md"
 requires-python = ">=3.9"
 classifiers = [
@@ -22,6 +22,7 @@ dependencies = [
     "accelerate>=0.27.2",
     "deepspeed>=0.13.2",
     "peft>=0.10.0",
+    "vllm"
 ]
 
 [project.urls]
@@ -29,4 +30,4 @@ dependencies = [
 "Bug Tracker" = "https://github.com/FSoft-AI4Code/CodeMMLU/issues"
 
 [project.scripts]
-code-eval = "codemmlu.__main__:main"
+codemmlu = "codemmlu.__main__:main"

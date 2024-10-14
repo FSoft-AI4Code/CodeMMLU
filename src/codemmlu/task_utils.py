@@ -11,6 +11,8 @@ SYNTACTIC_TASK = ["programming_syntax", "api_frameworks"]
 
 REALWORLD_TASK = ["code_completion", "fill_in_the_middle", "code_repair", "defect_detection"]
 
+ALL_TASK = SEMANTIC_TASK + SYNTACTIC_TASK + REALWORLD_TASK + ["all"]
+
 
 def get_prompt(subset: str, prompt_mode: str) -> str:
     """Get prompt for a given task."""
@@ -55,31 +57,32 @@ class CodeMMLU:
     def prepare_dataset(self, prompt_mode: str="zeroshot") -> Dataset:
         """Preprocess CodeMMLU question.
         
-        - Default CodeMMLU prompt is zeroshot: 
-        ```question = <instruction_token> + <prompt> + <assistant_token>```
+        - Default CodeMMLU prompt is zeroshot. All support prompt modes are:
+            - zeroshot
+            - fewshot
+            - cot_zs (Chain-of-Thought zershot)
+            - cot_fs (Chain-of-Thought fewshot)
         """
 
         TEMPLATE = get_prompt(self.subset, prompt_mode)
-        
-        key_column = "text"
             
-        def _preprocess(examples):
+        def _preprocess(example):
             model_inputs = dict(task_id=[], question=[])
             
-            for idx in range(len(examples[key_column])):
-                question = examples[key_column][idx]
-                
-                # MODEL INPUTS HERE
-                model_inputs['question'].append(TEMPLATE.format(
-                    self.instruction_prefix + question + self.assistant_prefix
-                ))
-            
-            model_inputs['task_id'] = examples['task_id']
+            # for idx in range(len(examples[key_column])):
+            # question = examples[key_column][idx]
+            task_id = example.pop('task_id')
+            # MODEL INPUTS HERE
+            question = TEMPLATE.format(**example)
+            question = self.instruction_prefix + question + self.assistant_prefix
+            model_inputs['question'].append(question)
+            model_inputs['task_id'] = task_id
             
             return model_inputs
         
-        preprocessed_ds = self.dataset.map(_preprocess, batched=True,
-                                        remove_columns=self.dataset.column_names)
+        preprocessed_ds = self.dataset.map(_preprocess, 
+                                           batched=False,
+                                           remove_columns=self.dataset.column_names)
         
         return preprocessed_ds
     
