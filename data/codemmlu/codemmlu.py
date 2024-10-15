@@ -11,11 +11,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """The CodeMMLU benchmark."""
 
 import os
 import json
+from glob import glob
 
 import datasets
 
@@ -35,7 +35,7 @@ CodeMMLU is a comprehensive benchmark designed to evaluate the capabilities of l
 
 _HOMEPAGE = "https://fsoft-ai4code.github.io/codemmlu/"
 
-_URL = "./test"
+_URL = "./data/test"
 
 _SUBJECTS = [
     "programming_syntax", "api_frameworks",
@@ -44,32 +44,18 @@ _SUBJECTS = [
 ]
 
 
-class CodeMMLUConfig(datasets.BuilderConfig):
-    """BuilderConfig for SuperGLUE."""
-
-    def __init__(self, features, **kwargs):
-        """BuilderConfig for CodeMMLU.
-        """
-        # Version history:
-        # 0.0.1: Initial release.
-        super().__init__(version=datasets.Version("0.0.1"), **kwargs)
-        self.features = features
-
-
 class CodeMMLU(datasets.GeneratorBasedBuilder):
     """CodeMMLU: A Multi-Task Benchmark for Assessing Code Understanding Capabilities"""
-    BUILDER_CONFIG_CLASS = CodeMMLUConfig
-    BUILDER_CONFIGS = []
-    for sub in _SUBJECTS:
-        features = ['task_id', 'question', 'choices']
-        if sub == "fill_in_the_middle":
-            features.append('problem_description')
-        
-        BUILDER_CONFIGS.append(CodeMMLUConfig(
-            name=sub, 
-            features=features,
-            description="CodeMMLU test subject {}".format(sub),
-        ))
+    # Version history:
+    # 0.0.1: Initial release.
+    VERSION = datasets.Version("0.0.1")
+
+    BUILDER_CONFIGS = [
+        datasets.BuilderConfig(
+            name=sub, version=datasets.Version("0.0.1"),
+            description="CodeMMLU test subject {}".format(sub)
+        ) for sub in _SUBJECTS
+    ]
 
 
     def _info(self):
@@ -93,34 +79,28 @@ class CodeMMLU(datasets.GeneratorBasedBuilder):
 
     def _split_generators(self, dl_manager):
         """Returns SplitGenerators."""
-        archive = dl_manager.download(_URL)
-        dl_dir = dl_manager.download_and_extract(self.config.data_url) or ""
-        task_name = _get_task_name_from_data_url(self.config.data_url)
-        dl_dir = os.path.join(dl_dir, task_name)
+        path = os.path.join(_URL, self.config.name + ".jsonl")
+        dl_dir = dl_manager.download(path)
         return [
             datasets.SplitGenerator(
                 name=datasets.Split.TEST,
-                gen_kwargs={
-                    "iter_archive": dl_manager.iter_archive(archive), 
-                },
+                gen_kwargs={"data_path": dl_dir},
             ),
         ]
-    
-    def _generate_examples(self, iter_archive):
+
+    def _generate_examples(self, data_path):
         """This function returns the examples in the raw (text) form."""
-        for path, file in iter_archive:
-            if path.endswith(".jsonl"):
-                lines = (line.decode("utf-8") for line in file)
-                reader = [json.loads(line) for line in lines]
-                for data in reader:
-                    id_ = data['task_id']
+        if data_path.endswith(".jsonl"):
+            lines = open(data_path, "r", encoding="utf-8").readlines()
+            reader = [json.loads(line) for line in lines]
+            for idx, data in enumerate(reader):
+                return_dict = {
+                    "task_id": data['task_id'],
+                    "question": data['question'], 
+                    "choices": data['choices'],
+                }
 
-                    return_dict = {
-                        "question": data['question'], 
-                        "choices": data['choices'],
-                    }
+                if "fill_in_the_middle" in data_path:
+                    return_dict['problem_description'] = data['problem_description']
 
-                    if "fill_in_the_middle" in path:
-                        return_dict['problem_description'] = data['problem_description']
-
-                    yield id_, return_dict
+                yield idx, return_dict

@@ -11,7 +11,7 @@ def get_args():
                         version=pkg_resources.get_distribution("codemmlu").version)
     
     # Data args
-    parser.add_argument("--subset", default="all", type=str,
+    parser.add_argument("--subset", default="programming_syntax", type=str,
                         help='Select evaluate subset')
     parser.add_argument("--batch_size", default=16, type=int)
     parser.add_argument("--instruction_prefix", default="", type=str)
