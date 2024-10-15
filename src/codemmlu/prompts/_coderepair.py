@@ -5,7 +5,7 @@ Question: The implementation below is producing incorrect results.
 Which solution below correctly identifies the bug and repairs it to achieve the desired goal?
 {question}
 
-{multiple_choices}
+{choices}
 
 Answer: """
 
@@ -22,7 +22,7 @@ Question: The implementation below is producing incorrect results.
 Which solution below correctly identifies the bug and repairs it to achieve the desired goal?
 {question}
 
-{multiple_choices}
+{choices}
 
 Answer: """
 
@@ -42,7 +42,7 @@ Question: The implementation below is producing incorrect results.
 Which solution below correctly identifies the bug and repairs it to achieve the desired goal?
 {question}
 
-{multiple_choices}
+{choices}
 
 Answer: Let's think step by step. """
 

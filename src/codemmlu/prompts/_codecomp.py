@@ -6,7 +6,7 @@ Question: Which solution below is the most likely completion the following
 code snippet to achieve the desired goal?
 {question}
 
-{multiple_choices}
+{choices}
 
 Answer: """
 
@@ -67,7 +67,7 @@ code snippet to achieve the desired goal?
 {question}
 ```
 
-{multiple_choices}
+{choices}
 
 Answer: """
 
@@ -79,7 +79,7 @@ code snippet to achieve the desired goal?
 ```python
 {question}
 ```
-{multiple_choices}
+{choices}
 
 Answer: Let's think step by step. '''
 
@@ -141,7 +141,7 @@ code snippet to achieve the desired goal?
 ```python
 {question}
 ```
-{multiple_choices}
+{choices}
 
 Answer: Let's think step by step. """
 
