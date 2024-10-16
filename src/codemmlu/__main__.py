@@ -49,7 +49,7 @@ def get_args():
 
 def main():
     args, parsre = get_args()
-    if args.task:
+    if args.generate:
         generate(args=args)
     else:
         parsre.print_help()
