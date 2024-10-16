@@ -52,7 +52,7 @@ def two_sum(nums: List[int], target: int) -> List[int]:
     return []
 ```
 (D) ```python
-    num_dict = {}
+    num_dict = {{}}
     for i, num in enumerate(nums):
         if target - num in num_dict:
             return [num_dict[target - num], i]
@@ -125,7 +125,7 @@ def two_sum(nums: List[int], target: int) -> List[int]:
     return []
 ```
 (D) ```python
-    num_dict = {}
+    num_dict = {{}}
     for i, num in enumerate(nums):
         if target - num in num_dict:
             return [num_dict[target - num], i]
