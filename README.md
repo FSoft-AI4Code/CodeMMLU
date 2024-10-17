@@ -17,12 +17,10 @@
 </p>
 
 <p align="center">
-    <!-- <a href="#-impact">💥 Impact</a> • -->
-    <a href="#📰-news">📰 News</a> •
-    <a href="#🚀-quick-start">🚀 Quick Start</a> •
-    <a href="#📋-evaluation">📋 Evaluation</a> •
-    <!-- <a href="#-llm-generated-code">💻 LLM-generated Code</a> • -->
-    <a href="#📌-citation">📌 Citation</a>
+    <a href="#-news">📰 News</a> •
+    <a href="#-quick-start">🚀 Quick Start</a> •
+    <a href="#-evaluation">📋 Evaluation</a> •
+    <a href="#-citation">📌 Citation</a>
 </p>
 
 ## 📌 About
@@ -50,7 +48,7 @@ pip install codemmlu
 
 Generate response for CodeMMLU MCQs benchmark:
 ```bash
-code_mmlu.generate --model_name <your_model_name_or_path> \
+code_mmlu --model_name <your_model_name_or_path> \
   --subset <subset> \
   --backend <backend> \
   --output_dir <your_output_dir>
@@ -70,10 +68,9 @@ pip install -e .
 >
 > If you prefer `vllm` backend, we highly recommend you install [vllm from official project](https://github.com/vllm-project/vllm/) before install `codemmlu`.
 
-Start evaluating your model via `codemmlu`:
+Generating with CodeMMLU questions:
 ```bash
-code_mmlu.generate \
-  --model_name <your_model_name_or_path> \
+code_mmlu --model_name <your_model_name_or_path> \
   --peft_model <your_peft_model_name_or_path> \
   --subset all \
   --batch_size 16 \
@@ -86,27 +83,51 @@ code_mmlu.generate \
   --cache_dir <your_cache_dir>
 ```
 
-List of CodeMMLU subset:
+<details><summary>⏬ API Usage <i>:: click to expand ::</i></summary>
+<div>
 
-| Subject           	| Subset              	|
-|-------------------	|---------------------	|
-| Syntactic test    	| programming_syntax  	|
-|                   	| api_frameworks      	|
-| Semantic test     	| software_principles 	|
-|                   	| dbms_sql            	|
-|                   	| others              	|
-| Realworld problem 	| code_completion     	|
-|                   	| fill_in_the_middle  	|
-|                   	| code_repair         	|
-|                   	| defect_detection    	|
+```bash
+usage: codemmlu [-h] [-V] [--subset SUBSET] [--batch_size BATCH_SIZE] [--instruction_prefix INSTRUCTION_PREFIX]
+                   [--assistant_prefix ASSISTANT_PREFIX] [--output_dir OUTPUT_DIR] [--model_name MODEL_NAME]
+                   [--peft_model PEFT_MODEL] [--backend BACKEND] [--max_new_tokens MAX_NEW_TOKENS]
+                   [--temperature TEMPERATURE] [--cache_dir CACHE_DIR]
+
+==================== CodeMMLU ====================
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -V, --version         Get version
+  --subset SUBSET       Select evaluate subset
+  --batch_size BATCH_SIZE
+  --instruction_prefix INSTRUCTION_PREFIX
+  --assistant_prefix ASSISTANT_PREFIX
+  --output_dir OUTPUT_DIR
+                        Save generation and result path
+  --model_name MODEL_NAME
+                        Local path or Huggingface Hub link to load model
+  --peft_model PEFT_MODEL
+                        Lora config
+  --backend BACKEND     LLM generation backend (default: hf)
+  --max_new_tokens MAX_NEW_TOKENS
+                        Number of max new tokens
+  --temperature TEMPERATURE
+  --cache_dir CACHE_DIR
+                        Cache for save model download checkpoint and dataset
+```
+
+</div>
+</details>
+
 
 List of supported backends:
 
 | Backend          	| DecoderModel 	| LoRA 	|
 |------------------	|--------------	|------	|
-| [Transformers](https://github.com/huggingface/transformers)
- (hf) 	| ✅            | ✅    |
+| [Transformers](https://github.com/huggingface/transformers) (hf) 	| ✅            | ✅    |
 | [Vllm](https://github.com/vllm-project/vllm) (vllm)      	| ✅            | ✅    |
+
+### Leaderboard
+To evaluate your model and submit your results to the [leaderboard](https://fsoft-ai4code.github.io/leaderboards/codemmlu/), please follow the instruction in [data/README.md](data/README.md).
 
 ## 📌 Citation
 If you find this repository useful, please consider citing our paper:

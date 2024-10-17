@@ -1,13 +1,13 @@
 zeroshot = """The following are multiple-choice questions (with answers) about a programming problem with incomplete solution.
 
-Problem statement: {question}
+Problem statement: {problem_description}
 
 Incomplete Solution:
-{codebase}
+{question}
 
 Question: The provided solution is missing a part, Which option below is the most likely to complete the solution and achieve the desired goal?
 
-{multiple_choices}
+{choices}
 
 Answer: """
 
@@ -71,28 +71,28 @@ Question: The provided solution is missing a part, Which option below is the mos
 
 Answer: The answer is (A).
 
-Problem statement: {question}
+Problem statement: {problem_description}
 
 Incomplete Solution:
-{codebase}
+{question}
 
 Question: The provided solution is missing a part, Which option below is the most likely to complete the solution and achieve the desired goal?
 
-{multiple_choices}
+{choices}
 
 Answer: """
 
 cot_zs = """The following are multiple-choice questions (with answers) about a programming problem with incomplete solution.
 
-Problem statement: {question}
+Problem statement: {problem_description}
 
 Incomplete Solution:
-{codebase}
+{question}
 
 Question: The provided solution is missing a part, Which option below is the most likely to
 complete the solution and achieve the desired goal?
 
-{multiple_choices}
+{choices}
 
 Answer: Let's think step by step. """
 
@@ -163,15 +163,15 @@ The option (C) increments the index when finding the right interval index. Howev
 The option (D) uses the same index for both the original interval and the right interval, which could lead to incorrect results.
 The answer is (A).
 
-Problem statement: {question}
+Problem statement: {problem_description}
 
 Incomplete Solution:
-{codebase}
+{question}
 
 Question: The provided solution is missing a part, Which option below is the most likely to
 complete the solution and achieve the desired goal?
 
-{multiple_choices}
+{choices}
 
 Answer: Let's think step by step. """
 

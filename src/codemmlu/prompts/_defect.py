@@ -3,7 +3,7 @@ zeroshot = """The following are multiple choice questions (with answers) about p
 Question: Given a code snippet below, which behavior most likely to occur when execute it?
 {question}
 
-{multiple_choices}
+{choices}
 
 Answer: """
 
@@ -30,7 +30,7 @@ Answer: The answer is (A).
 Question: Given a code snippet below, which behavior most likely to occur when execute it?
 {question}
 
-{multiple_choices}
+{choices}
 
 Answer: """
 
@@ -60,7 +60,7 @@ The answer is (A).
 Question: Given a code snippet below, which behavior most likely to occur when execute it?
 {question}
 
-{multiple_choices}
+{choices}
 
 Answer: Let's think step by step."""
 

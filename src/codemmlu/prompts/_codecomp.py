@@ -6,7 +6,7 @@ Question: Which solution below is the most likely completion the following
 code snippet to achieve the desired goal?
 {question}
 
-{multiple_choices}
+{choices}
 
 Answer: """
 
@@ -52,7 +52,7 @@ def two_sum(nums: List[int], target: int) -> List[int]:
     return []
 ```
 (D) ```python
-    num_dict = {}
+    num_dict = {{}}
     for i, num in enumerate(nums):
         if target - num in num_dict:
             return [num_dict[target - num], i]
@@ -67,7 +67,7 @@ code snippet to achieve the desired goal?
 {question}
 ```
 
-{multiple_choices}
+{choices}
 
 Answer: """
 
@@ -79,7 +79,7 @@ code snippet to achieve the desired goal?
 ```python
 {question}
 ```
-{multiple_choices}
+{choices}
 
 Answer: Let's think step by step. '''
 
@@ -125,7 +125,7 @@ def two_sum(nums: List[int], target: int) -> List[int]:
     return []
 ```
 (D) ```python
-    num_dict = {}
+    num_dict = {{}}
     for i, num in enumerate(nums):
         if target - num in num_dict:
             return [num_dict[target - num], i]
@@ -141,7 +141,7 @@ code snippet to achieve the desired goal?
 ```python
 {question}
 ```
-{multiple_choices}
+{choices}
 
 Answer: Let's think step by step. """
 
