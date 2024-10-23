@@ -1,12 +1,12 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "codemmlu"
 version = "0.0.1"
 authors = [
-  { name="Dung Manh Nguyen", email="dungnm31@fpt.com" },
+  { name="Dung Manh Nguyen", email="dungnm.workspace@gmail.com" },
 ]
 description = "CodeMMLU Evaluator: A framework for evaluating language models on CodeMMLU benchmark."
 readme = "README.md"
@@ -26,7 +26,7 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://fsoft-ai4code.github.io/leaderboards/codemmlu/"
+"Homepage" = "https://fsoft-ai4code.github.io/codemmlu/"
 "Bug Tracker" = "https://github.com/FSoft-AI4Code/CodeMMLU/issues"
 
 [project.scripts]

@@ -1,7 +1,7 @@
 zeroshot = """The following are multiple choice questions (with answers) about software development.
 
 Question: {question}
-{multiple_choices}
+{choices}
 
 Answer: """
 
@@ -15,14 +15,14 @@ in order to search a for a specific value which of the following algorithms is t
 Answer: The answer is (D).
 
 Question: {question}
-{multiple_choices}
+{choices}
 
 Answer: """
 
 cot_zs = """The following are multiple choice questions (with answers) about software devopment.
  
 Question: {question}
-{multiple_choices}
+{choices}
 
 Answer: Let's think step by step. """
 
@@ -35,7 +35,7 @@ Question: If a sorted array of integers is guaranteed to not contain duplicate v
 Answer: Let's think step by step. Binary Search is a divide-and-conquer algorithm that works by repeatedly dividing the search interval in half and searching for the value in the appropriate half. Since the array is already sorted and does not contain any duplicate value, this algorithm is optimal to find the desired value. The answer is (D).
  
 Question: {question}
-{multiple_choices}
+{choices}
 
 Answer: Let's think step by step. '''
 
