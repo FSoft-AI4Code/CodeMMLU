@@ -48,7 +48,7 @@ pip install codemmlu
 
 Generate response for CodeMMLU MCQs benchmark:
 ```bash
-code_mmlu --model_name <your_model_name_or_path> \
+codemmlu --model_name <your_model_name_or_path> \
   --subset <subset> \
   --backend <backend> \
   --output_dir <your_output_dir>
