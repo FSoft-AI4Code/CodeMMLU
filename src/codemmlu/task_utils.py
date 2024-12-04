@@ -1,4 +1,7 @@
 import re
+import os
+import json
+import glob
 from string import ascii_uppercase
 from typing import Optional
 from datasets import Dataset, load_dataset
@@ -80,12 +83,10 @@ class CodeMMLU:
             # for idx in range(len(examples[key_column])):
             # question = examples[key_column][idx]
             task_id = example.pop('task_id')
-            question = example.pop('question')
-            choices = example.pop('choices')
-            choices = [f"({ascii_uppercase[idx]}) {choice}" for idx, choice in enumerate(choices)]
+            example['choices'] = "\n".join([f"({ascii_uppercase[idx]}) {choice}" for idx, choice in enumerate(example['choices'])])
 
             # MODEL INPUTS HERE
-            question = TEMPLATE.format(question=question, choices="\n".join(choices))
+            question = TEMPLATE.format(**example)
             question = self.instruction_prefix + question + self.assistant_prefix
             model_inputs['question'] = question
             model_inputs['task_id'] = task_id
