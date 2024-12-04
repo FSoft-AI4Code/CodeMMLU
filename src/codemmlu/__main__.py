@@ -29,8 +29,11 @@ def get_args():
     parser.add_argument("--max_new_tokens", default=128, type=int,
                         help='Number of max new tokens')
     parser.add_argument("--temperature", default=0.0, type=float)
+    parser.add_argument("--prompt_mode", default='zeroshot', type=str,
+                        help='Prompt available: zeroshot, fewshot, cot_zs, cot_fs')
     parser.add_argument("--cache_dir", default=None, type=str,
                         help='Cache for save model download checkpoint and dataset')
+    parser.add_argument("--trust_remote_code", action='store_true')
     
     args = parser.parse_args()
     
@@ -49,16 +52,17 @@ def get_args():
 
 def main():
     args, parsre = get_args()
-    if args.generate:
+    if args.model_name:
         generate(args=args)
     else:
         parsre.print_help()
     
 
 def generate(args):
-    from codemmlu import Evaluator
-
+    from codemmlu.evaluator import Evaluator
+    
     evaluator = Evaluator(
+        subset=args.subset,
         model_name=args.model_name,
         peft_model=args.peft_model,
         backend=args.backend,
@@ -67,7 +71,8 @@ def generate(args):
         output_dir=args.output_dir,
         trust_remote_code=args.trust_remote_code,
         instruction_prefix=args.instruction_prefix,
-        assistant_prefix=args.assistant_prefix
+        assistant_prefix=args.assistant_prefix,
+        prompt_mode=args.prompt_mode,
     )
 
     evaluator.generate(
@@ -76,7 +81,6 @@ def generate(args):
     )
     
     print("======= Finish generated =======")
-
 
 if __name__ == '__main__':
     main()
