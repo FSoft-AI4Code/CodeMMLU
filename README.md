@@ -70,7 +70,7 @@ pip install -e .
 
 Generating with CodeMMLU questions:
 ```bash
-code_mmlu --model_name <your_model_name_or_path> \
+codemmlu --model_name <your_model_name_or_path> \
   --peft_model <your_peft_model_name_or_path> \
   --subset all \
   --batch_size 16 \
@@ -87,10 +87,10 @@ code_mmlu --model_name <your_model_name_or_path> \
 <div>
 
 ```bash
-usage: codemmlu [-h] [-V] [--subset SUBSET] [--batch_size BATCH_SIZE] [--instruction_prefix INSTRUCTION_PREFIX]
-                   [--assistant_prefix ASSISTANT_PREFIX] [--output_dir OUTPUT_DIR] [--model_name MODEL_NAME]
-                   [--peft_model PEFT_MODEL] [--backend BACKEND] [--max_new_tokens MAX_NEW_TOKENS]
-                   [--temperature TEMPERATURE] [--cache_dir CACHE_DIR]
+codemmlu [-h] [-V] [--subset SUBSET] [--batch_size BATCH_SIZE] [--instruction_prefix INSTRUCTION_PREFIX]
+                [--assistant_prefix ASSISTANT_PREFIX] [--output_dir OUTPUT_DIR] [--model_name MODEL_NAME]
+                [--peft_model PEFT_MODEL] [--backend BACKEND] [--max_new_tokens MAX_NEW_TOKENS]
+                [--temperature TEMPERATURE] [--prompt_mode PROMPT_MODE] [--cache_dir CACHE_DIR] [--trust_remote_code]
 
 ==================== CodeMMLU ====================
 
@@ -111,8 +111,11 @@ optional arguments:
   --max_new_tokens MAX_NEW_TOKENS
                         Number of max new tokens
   --temperature TEMPERATURE
+  --prompt_mode PROMPT_MODE
+                        Prompt available: zeroshot, fewshot, cot_zs, cot_fs
   --cache_dir CACHE_DIR
                         Cache for save model download checkpoint and dataset
+  --trust_remote_code
 ```
 
 </div>
