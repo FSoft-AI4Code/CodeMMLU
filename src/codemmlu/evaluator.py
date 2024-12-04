@@ -120,3 +120,9 @@ class Evaluator:
         
         return results
 
+
+def acc_evaluate(
+    subset: str,
+    response_path: str):
+    
+    pass
