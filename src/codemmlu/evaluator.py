@@ -18,7 +18,7 @@ from typing import Optional, Dict, List
 
 import torch
 
-from codemmlu.backends import make_model, SUPPORTED_BACKENDS
+from codemmlu.backends import make_model, SUPPORTED_BACKENDS, Backend
 
 class Evaluator:
     """Evaluator class.
@@ -49,11 +49,12 @@ class Evaluator:
                  output_dir: Optional[str] = "./output",
                  instruction_prefix: Optional[str] = "",
                  assistant_prefix: Optional[str] = "",
+                 prompt_mode: Optional[str] = None,
                  ) -> None:
 
         # Dataset args
         self.split = split
-        self.subset = subset if subset else "all"
+        self.subset = subset
         self.instruction_prefix = instruction_prefix
         self.assistant_prefix = assistant_prefix
 
@@ -65,6 +66,7 @@ class Evaluator:
         self.trust_remote_code = trust_remote_code
         self.cache_dir = cache_dir
         self.batch_size = batch_size
+        self.prompt_mode = prompt_mode
 
         if backend not in SUPPORTED_BACKENDS:
             raise ValueError(f"Backend {backend} is not supported. Please choose from {SUPPORTED_BACKENDS}")
@@ -87,14 +89,9 @@ class Evaluator:
             with ``task_id``, ``prompt`` and ``answer`` key.
         :rtype: List
         """
-        print(f"Evaluating task: [{self.TASK_NAME}]")
-        print(f"pt={torch.__version__}, cuda={torch.version.cuda}, nccl={torch.cuda.nccl.version()}")
-        print(f"device compute capabilities={torch.cuda.get_device_capability()}")
-        print(f"pytorch compute capabilities={torch.cuda.get_arch_list()}")
-
-        self.engine = make_model(
-            split=self.split,
+        self.engine : Backend = make_model(
             subset=self.subset,
+            split=self.split,
             model_name=self.model_name,
             backend=self.backend,
             peft_model=self.peft_model,
@@ -103,11 +100,23 @@ class Evaluator:
             temperature=temperature,
             max_new_tokens=max_new_tokens,
             cache_dir=self.cache_dir,
+            instruction_prefix=self.instruction_prefix,
+            assistant_prefix=self.assistant_prefix,
+            output_dir=self.output_dir,
+            prompt_mode=self.prompt_mode,
         )
+
+
+        print(f"Evaluating task: [{self.engine.TASK_NAME}]")
+        print(f"pt={torch.__version__}, cuda={torch.version.cuda}, nccl={torch.cuda.nccl.version()}")
+        print(f"device compute capabilities={torch.cuda.get_device_capability()}")
+        print(f"pytorch compute capabilities={torch.cuda.get_arch_list()}")
+
         start_time = time.time()
         results = self.engine.generate()
         
-        print("=======  Finished {}  =======".format(self.TASK_NAME))
+        print("=======  Finished {}  =======".format(self.engine.TASK_NAME))
         print("Completion time: %d s", (time.time() - start_time))
         
         return results
+

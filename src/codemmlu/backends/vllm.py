@@ -29,13 +29,16 @@ class VllmEngine(Backend):
             self.lora_request=LoRARequest("lora", 1, self.peft_model)
             
         self.sampling_params = SamplingParams(
-            max_tokens=self.max_tokens,
+            max_tokens=self.max_new_tokens,
             temperature=self.temperature,
         )
 
     def generate(self):
+        ds_loader = [self.dataset[i:i+self.batch_size] 
+                    for i in range(0, len(self.dataset), self.batch_size)]
+        
         result = []
-        for batch in tqdm(self.ds_loader, total=len(self.ds_loader), desc="Generating"):
+        for batch in tqdm(ds_loader, total=len(ds_loader), desc="Generating"):
             outputs = self.model.generate(batch['question'], 
                                           self.sampling_params, 
                                           lora_request=self.lora_request)

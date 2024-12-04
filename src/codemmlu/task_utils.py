@@ -1,4 +1,5 @@
 import re
+from string import ascii_uppercase
 from typing import Optional
 from datasets import Dataset, load_dataset
 
@@ -11,12 +12,12 @@ SYNTACTIC_TASK = ["programming_syntax", "api_frameworks"]
 
 REALWORLD_TASK = ["code_completion", "fill_in_the_middle", "code_repair", "defect_detection"]
 
-ALL_TASK = SEMANTIC_TASK + SYNTACTIC_TASK + REALWORLD_TASK + ["all"]
+ALL_TASK = SEMANTIC_TASK + SYNTACTIC_TASK + REALWORLD_TASK
 
 
 def get_prompt(subset: str, prompt_mode: str) -> str:
     """Get prompt for a given task."""
-    assert prompt_mode in ["zeroshot", "fewshot"]
+    assert prompt_mode in ["zeroshot", "fewshot", "cot_zs", "cot_fs"]
 
     if subset in SEMANTIC_TASK + SYNTACTIC_TASK:
         return GENERAL_PROMPT[prompt_mode]
@@ -41,6 +42,7 @@ class CodeMMLU:
     def __init__(self, 
                  split: str,
                  subset: str,
+                 prompt_mode: str = "zeroshot",
                  instruction_prefix: Optional[str] = "",
                  assistant_prefix: Optional[str] = "") -> None:
         
@@ -49,12 +51,18 @@ class CodeMMLU:
         self.assistant_prefix = assistant_prefix
         self.split = split
         self.subset = subset
+        self.prompt_mode = prompt_mode
 
         self.dataset = load_dataset(self.DATASET_NAME_OR_PATH, subset,
                                     split=split, use_auth_token=True)
-        
+
+    def __len__(self):
+        return len(self.dataset)
     
-    def prepare_dataset(self, prompt_mode: str="zeroshot") -> Dataset:
+    def get_dataset(self) -> Dataset:
+        return self.dataset
+    
+    def prepare_dataset(self) -> Dataset:
         """Preprocess CodeMMLU question.
         
         - Default CodeMMLU prompt is zeroshot. All support prompt modes are:
@@ -64,7 +72,7 @@ class CodeMMLU:
             - cot_fs (Chain-of-Thought fewshot)
         """
 
-        TEMPLATE = get_prompt(self.subset, prompt_mode)
+        TEMPLATE = get_prompt(self.subset, self.prompt_mode)
             
         def _preprocess(example):
             model_inputs = dict(task_id=[], question=[])
@@ -72,10 +80,14 @@ class CodeMMLU:
             # for idx in range(len(examples[key_column])):
             # question = examples[key_column][idx]
             task_id = example.pop('task_id')
+            question = example.pop('question')
+            choices = example.pop('choices')
+            choices = [f"({ascii_uppercase[idx]}) {choice}" for idx, choice in enumerate(choices)]
+
             # MODEL INPUTS HERE
-            question = TEMPLATE.format(**example)
+            question = TEMPLATE.format(question=question, choices="\n".join(choices))
             question = self.instruction_prefix + question + self.assistant_prefix
-            model_inputs['question'].append(question)
+            model_inputs['question'] = question
             model_inputs['task_id'] = task_id
             
             return model_inputs
@@ -84,8 +96,14 @@ class CodeMMLU:
                                            batched=False,
                                            remove_columns=self.dataset.column_names)
         
+        print(f"Preprocessed dataset: {preprocessed_ds}")
+        # Visualize 3 sample
+        print("Preprocessed prompts:")
+        for i in range(3):
+            print(preprocessed_ds['question'][i])
         return preprocessed_ds
     
+
     @staticmethod
     def _stop_at_stop_token(decoded_string, stop_tokens):
         """
@@ -103,19 +121,21 @@ class CodeMMLU:
 
     def process_response(self, example):
         answer = self._stop_at_stop_token(example, self.stop_words)
-        
+
         # Substitute special characters with empty string
         answer = re.sub(r'[^A-Za-z0-9 \n]', "", answer)
-        processed_answer = []
+        new_answer = []
         for item in answer.splitlines():
             for subitem in item.split(" "):
                 if len(subitem) != 1:
-                    processed_answer.append(subitem.lower())
+                    new_answer.append(subitem.lower())
                 else:
-                    processed_answer.append(subitem)
+                    new_answer.append(subitem)
+                
+        new_answer = ' '.join(new_answer)
+        new_answer = re.sub(r'\s+', ' ', new_answer).strip()
         
-        # Concat all the words into a single string
-        return ' '.join(processed_answer)
+        return new_answer    
 
     def parse_answer(self, example):
         """Answer extract function.
