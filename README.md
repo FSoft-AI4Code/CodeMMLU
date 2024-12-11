@@ -37,7 +37,7 @@ It builds upon the structure of multiple-choice question answering (MCQA) to cov
 - **Precise and comprehensive:** Checkout our [LEADERBOARD](https://fsoft-ai4code.github.io/leaderboards/codemmlu/) for latest LLM rankings.
 
 ## 📰 News
-**[2024-10-13]** We are releasing CodeMMLU benchmark v0.0.1 and preprint report [HERE](https://arxiv.org/abs/2406.15877)!
+**[2024-10-13]** We are releasing CodeMMLU benchmark v0.0.1 and preprint report [HERE](https://arxiv.org/abs/2410.01999)!
 
 ## 🚀 Quick Start
 
