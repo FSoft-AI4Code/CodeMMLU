@@ -5,15 +5,11 @@
 </center>
 
 <p align="center">
-    <a href="https://fsoft-ai4code.github.io/leaderboards/codemmlu/"><img src="https://custom-icon-badges.demolab.com/badge/Leaderboard-orange?style=flat&logo=barchart&label=%20"></a>
+    <a href="https://fsoft-ai4code.github.io/codemmlu/"><img src="https://custom-icon-badges.demolab.com/badge/Leaderboard-orange?style=flat&logo=barchart&label=%20"></a>
     <a href="https://huggingface.co/datasets/Fsoft-AIC/CodeMMLU"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Datasets-CodeMMLU-f9a602?style=flat"></a>
-    <a href="https://fsoft-ai4code.github.io/codemmlu/"><img src="https://custom-icon-badges.demolab.com/badge/WebPage-1a4f76?style=flat&logo=web"></a>
-    <a href="https://arxiv.org/abs/2406.15877"><img src="https://img.shields.io/badge/2410.01999-red?style=flat&label=arXiv"></a>
+    <a href="https://arxiv.org/abs/2410.01999"><img src="https://img.shields.io/badge/2410.01999-red?style=flat&label=arXiv"></a>
     <a href="https://pypi.org/project/codemmlu/"><img src="https://img.shields.io/pypi/v/codemmlu?color=g"></a>
-    <!-- <a href="https://pepy.tech/project/bigcodebench"><img src="https://static.pepy.tech/badge/bigcodebench"></a> -->
-    <a href="https://github.com/bigcodebench/bigcodebench/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg"></a>
-    <!-- <a href="https://hub.docker.com/r/bigcodebench/bigcodebench-evaluate" title="Docker-Eval"><img src="https://img.shields.io/docker/image-size/bigcodebench/bigcodebench-evaluate"></a>
-    <a href="https://hub.docker.com/r/bigcodebench/bigcodebench-generate" title="Docker-Gen"><img src="https://img.shields.io/docker/image-size/bigcodebench/bigcodebench-generate"></a> -->
+    <a href="https://github.com/FSoft-AI4Code/codemmlu/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg"></a>
 </p>
 
 <p align="center">
@@ -34,10 +30,7 @@ It builds upon the structure of multiple-choice question answering (MCQA) to cov
 
 - **CodeMMLU** comprises over 10,000 questions curated from diverse, high-quality sources. It covers a wide spectrum of software knowledge, including general QA, code generation, defect detection, and code repair across various domains and more than 10 programming languages.
 
-- **Precise and comprehensive:** Checkout our [LEADERBOARD](https://fsoft-ai4code.github.io/leaderboards/codemmlu/) for latest LLM rankings.
-
-## 📰 News
-**[2024-10-13]** We are releasing CodeMMLU benchmark v0.0.1 and preprint report [HERE](https://arxiv.org/abs/2410.01999)!
+- **Precise and comprehensive:** Checkout our [LEADERBOARD](https://fsoft-ai4code.github.io/codemmlu/) for latest LLM rankings.
 
 ## 🚀 Quick Start
 
@@ -130,7 +123,7 @@ List of supported backends:
 | [Vllm](https://github.com/vllm-project/vllm) (vllm)      	| ✅            | ✅    |
 
 ### Leaderboard
-To evaluate your model and submit your results to the [leaderboard](https://fsoft-ai4code.github.io/leaderboards/codemmlu/), please follow the instruction in [data/README.md](data/README.md).
+To evaluate your model and submit your results to the [leaderboard](https://fsoft-ai4code.github.io/codemmlu/), please follow the instruction in [data/README.md](data/README.md).
 
 ## 📌 Citation
 If you find this repository useful, please consider citing our paper:
